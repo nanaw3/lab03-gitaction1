@@ -1,27 +1,22 @@
-name: Test Pipe
+name: Testes com Jest
+
 on: push
+
 jobs:
- build:
-   runs-on: ubuntu-latest
-   strategy:
-     matrix:
-       node-version: [16.x, 18.x]
+  test:
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
 
-   steps:
-   - name: Checkout repository
-     uses: actions/checkout@v3
+      - name: Instala Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
+      - name: Instalar dependências
+        run: npm ci
 
-   - name: Set up Node.js ${{ matrix.node-version }}
-     uses: actions/setup-node@v3
-     with:
-       node-version: ${{ matrix.node-version }}
-
-
-   - name: Install dependencies
-     run: npm install
-
-
-   - name: Run the tests
-     run: npm test -- --coverage
+      - name: Rodar testes
+        run: npm test
